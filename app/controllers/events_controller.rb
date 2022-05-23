@@ -1,14 +1,19 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: %i[ show edit update destroy ]
+  # before_action :set_event, only: %i[ show edit update destroy add_attendee ]
   before_action :authenticate_user!, except: [:index, :show]
   # GET /dmeets or /dmeets.json
   def index
-    @events = Event.all.order("created_at DESC")
+    @events = Event.all.order("event_date")
     @event = Event.new
   end
 
   # GET /dmeets/1 or /dmeets/1.json
   def show
+    @event = Event.find(params[:id])
+  end
+
+  def add_attendee
+    @event.attendees << current_user
   end
 
   # GET /dmeets/new
@@ -18,6 +23,7 @@ class EventsController < ApplicationController
 
   # GET /dmeets/1/edit
   def edit
+    @event = Event.find(params[:id])
   end
 
   # POST /dmeets or /dmeets.json

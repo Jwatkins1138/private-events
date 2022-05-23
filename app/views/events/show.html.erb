@@ -1,0 +1,6 @@
+<%= @event.title %>
+<% @event.attendees.each do |a| %>
+  <%= a.email %>
+<% end %>
+<%= link_to 'attend', guest_lists_create_path(@event.id, current_user.id), method: :get, class: 'button is-info' %>
+
