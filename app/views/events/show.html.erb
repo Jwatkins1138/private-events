@@ -1,6 +1,45 @@
-<%= @event.title %>
-<% @event.attendees.each do |a| %>
-  <%= a.email %>
-<% end %>
-<%= link_to 'attend', guest_lists_create_path(@event.id, current_user.id), method: :get, class: 'button is-info' %>
 
+  <div class='container'>
+    <div class='columns'>      
+      <div class='column is-half'>
+      <h1 class='title is-2'><%= @event.title %></h1>
+      <p class='subtitle is-5'>@<%= @event.location %></p> 
+        <div class='box'>
+          <article class='media'>
+            <div class='media-left'>
+            <div class='media-content'>
+              <div class='content'>
+                <p><%= @event.description %></p>
+                <p class='date'><%= @event.event_date %></p>
+                <%= button_to 'attend', add_attendee_path(@event), method: :post, class: 'button is-info' %>
+                <small>hosted by</small><br />
+                <strong><%= @event.creator.email %></strong><br />
+              </div>
+            </div>
+            </div>
+          </article> 
+        </div>
+      </div>
+      <div class='column is-half'>
+      <h1 class='title is-2'>attendees</h1>
+        <div class='box'>
+          <article class='media'>
+              <div class='media-right'>
+              <div class='media-content'>
+                <div class='content'>
+                  
+                  <% @event.attendees.each do | a | %>
+                            <%# <figure class='image is-32x32'> %>
+                  <p><%= a.email %></p>
+                  <%= gravatar_image_tag(a.email, size: 32)%>
+                            <%# </figure> %>
+                  <% end %>
+                </div>     
+              </div>
+              </div>
+          </article>
+        </div>
+      </div>    
+    </div>
+  </div>
+  

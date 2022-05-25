@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  # before_action :set_event, only: %i[ show edit update destroy add_attendee ]
+  before_action :set_event, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show]
   # GET /dmeets or /dmeets.json
   def index
@@ -13,7 +13,18 @@ class EventsController < ApplicationController
   end
 
   def add_attendee
-    @event.attendees << current_user
+    @event = Event.find(params[:id])
+    respond_to do |format|
+      if @event.attendees.include?(current_user)
+        format.html { redirect_to event_path(@event), notice: 'you are already attending this event.'}
+      else
+        @guests = GuestList.new
+        @guests.user_id = current_user.id
+        @guests.event_id = @event.id
+        @guests.save
+        format.html { redirect_to event_path(@event), notice: 'you are now attending this event.' }
+      end  
+    end  
   end
 
   # GET /dmeets/new

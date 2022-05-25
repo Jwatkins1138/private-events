@@ -1,12 +1,15 @@
 class GuestListsController < ApplicationController
+
+  # before_action :authenticate_user!
+  before_filter :find_user
+  before_filter :find_event
+
   def new
-    @guest_list = GuestList.new
+    @guest_list = GuestList.new(guest_list_params)
   end
 
-  def create(event_id, user_id)
-    @guest_list = GuestList.new
-    @guest_list.user_id = user_id
-    @guest_list.event_id = event_id
+  def create
+    @guest_list = GuestList.new(:user_id => @user.id, :event_id => @event.id)
     @guest_list.save
     redirect_to root_path
     
@@ -20,6 +23,20 @@ class GuestListsController < ApplicationController
       #   format.json { render json: @guest_list.errors, status: :unprocessable_entity }
       # end
     # end
+  end
+
+  private
+
+  def find_user
+    @user = current_user
+  end
+
+  def find_event
+    @event = Event.find(params[:event_id])
+  end
+
+  def guest_list_params
+    params.require(:guest_list).permit(:user_id, :event_id) if params[:guest_list].present?
   end
 
 end
