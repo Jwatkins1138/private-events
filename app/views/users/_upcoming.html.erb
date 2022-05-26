@@ -1,0 +1,28 @@
+<div class='column is-half'>
+  <h1 class='title is-5'>My Upcoming Events</h1>  
+  <% @upcoming_events.each do | event | %>
+  <% if event.attendees.include?(current_user) %>
+    <div class='box'>
+      <article class='media'>
+        <div class='media-left'>
+          <figure class='image is-64x64'>
+            <%= gravatar_image_tag(event.creator.email, size: 64)%>
+          </figure>
+        </div>
+        <div class='media-content'>
+          <div class='content'>
+            <p class='title is-3'><%= event.title %></p>
+            <p class='subtitle is-5'>@<%= event.location %></p>
+            <p><%= event.description %></p>
+            <p class='date'><%= event.event_date %></p>
+            <small>hosted by</small><br />
+            <strong><%= event.creator.email %></strong><br />
+            <p>attendees <%= event.attendees.count %></p>
+            <%= link_to 'see event', event_path(event), method: :get, class: 'button is-info' %>
+          </div>
+        </div>
+      </article> 
+    </div>
+  <% end %>  
+  <% end %>
+</div>

@@ -44,6 +44,9 @@
               <p class='control'>
                 <%= link_to current_user.email, edit_user_registration_path, class: 'button is-info' %>
               </p>
+              <p class='control'>
+                <%= link_to 'my events', user_path(current_user), class: 'button is-info' %>
+              </p>
               <p>
                 <%= link_to 'logout', destroy_user_session_path, method: :get, class: 'button is-info' %>
               </p>

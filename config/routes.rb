@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     }
    
   resources :events
+  get 'users/:id', to: 'users#show', as: 'user'
   # resources :guest_lists
   # POST 'guest_lists/create.:event_id', to: 'guest_lists#create'
   post 'events/add_attendee/:id', to: 'events#add_attendee', as: 'add_attendee'

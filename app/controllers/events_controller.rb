@@ -2,8 +2,11 @@ class EventsController < ApplicationController
   before_action :set_event, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show]
   # GET /dmeets or /dmeets.json
+   
+
   def index
-    @events = Event.all.order("event_date")
+    @upcoming_events = Event.upcoming.order("event_date")
+    @past_events = Event.past.order("event_date")
     @event = Event.new
   end
 
@@ -74,6 +77,8 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
