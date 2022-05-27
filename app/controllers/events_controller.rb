@@ -6,7 +6,7 @@ class EventsController < ApplicationController
 
   def index
     @upcoming_events = Event.upcoming.order("event_date")
-    @past_events = Event.past.order("event_date")
+    @past_events = Event.past.order("event_date DESC")
     @event = Event.new
   end
 
